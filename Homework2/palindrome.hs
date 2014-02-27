@@ -5,7 +5,5 @@ withoutSpaces (s : xs) = if (s == ' ')
 	else s : withoutSpaces xs
 
 isPalindrome :: [Char] -> Bool
-isPalindrome s = if (reverse t == t) 
-	then True
-	else False
+isPalindrome s = (reverse t == t) 
 	where t = withoutSpaces s 
