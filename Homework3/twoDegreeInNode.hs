@@ -1,0 +1,1 @@
+listOfDegrees = 1 : map (* 2) listOfDegrees
