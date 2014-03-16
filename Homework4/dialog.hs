@@ -1,24 +1,33 @@
-loop :: Ord a => [a] -> IO()
-loop a = do
+loop :: [Int] -> IO()
+loop list = do
+	putStrLn("Your command:")
 	command  <- getLine
 	case command of
 		'0':_ -> return ()
-		'1':x -> loop (addValue a x)
-		'2':x -> loop (removeValue a x)
-		'3':_ -> do show a
-			loop a
+		'1':_ -> do
+			putStrLn("Value for add:")
+			x <- readLn
+			loop (addValue list x)
+		'2':_ -> do
+			putStrLn("Value for delete:")
+			x <- readLn
+			loop (removeValue list x)
+		'3':_ -> do 
+			putStrLn("Your list:")
+			putStrLn (show list)
+			loop list
 		_ -> do putStrLn ("Incorrect value")
-			loop a
+			loop list
 
 start = do loop []
 
-addValue :: Ord a => [a] -> a -> [a]
+addValue :: [Int] -> Int -> [Int]
 addValue [] x = [x]
 addValue (l : ls) x = if (l < x)
 	then (l : addValue ls x)
 	else (x : l : ls)
 
-removeValue :: Ord a => [a] -> a -> [a]
+removeValue :: [Int] -> Int -> [Int]
 removeValue [] x = []
 removeValue (l : ls) x = if (l < x)
 	then (l : removeValue ls x)
