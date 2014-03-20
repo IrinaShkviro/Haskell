@@ -10,4 +10,3 @@ allCombinations (l:ls) = l >>= \v -> allCombinations ls >>= \vs -> return (v : v
 
 combo :: Int -> [[Int]]
 combo n = allCombinations (listing [1, 2, 3] n)
-			
