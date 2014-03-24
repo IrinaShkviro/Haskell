@@ -1,0 +1,1 @@
+pos list n = filter (> 0) (map (\x ->  if (list !! x == n) then x else -1)[0..length list - 1]) 
