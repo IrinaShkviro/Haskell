@@ -6,24 +6,24 @@ data FluxType a = Degree (FluxType a) Int
 	| Const a
 	| Var
 
-simplify (Degree var 1) = var
-simplify (Degree var 0) = Const 1
-simplify (Sum (Const 0) arg2) = arg2
-simplify (Sum arg1 (Const 0)) = arg1
-simplify (Divis arg1 (Const 1)) = arg1
-simplify (Divis (Const 0) _) = Const 0
-simplify (Mul (Const 1) arg2) = arg2
-simplify (Mul arg1 (Const 1)) = arg1
-simplify (Mul (Const 0) _) = Const 0
-simplify (Mul _ (Const 0)) = Const 0
-simplify (Sub arg1 (Const 0)) = arg1
-simplify (Degree arg1 arg2) = Degree arg1 arg2
-simplify (Sum arg1 arg2) = Sum (simplify arg1) (simplify arg2)
-simplify (Divis arg1 arg2) = Divis (simplify arg1) (simplify arg2)
-simplify (Mul arg1 arg2) = Mul (simplify arg1) (simplify arg2)
-simplify (Sub arg1 arg2) = Sub (simplify arg1) (simplify arg2)
-simplify (Const a) = Const a
-simplify Var = Var
+simple (Degree var 1) = var
+simple (Degree var 0) = Const 1
+simple (Sum (Const 0) arg2) = arg2
+simple (Sum arg1 (Const 0)) = arg1
+simple (Divis arg1 (Const 1)) = arg1
+simple (Divis (Const 0) _) = Const 0
+simple (Mul (Const 1) arg2) = arg2
+simple (Mul arg1 (Const 1)) = arg1
+simple (Mul (Const 0) _) = Const 0
+simple (Mul _ (Const 0)) = Const 0
+simple (Sub arg1 (Const 0)) = arg1
+simple (Degree arg1 arg2) = Degree arg1 arg2
+simple (Sum arg1 arg2) = Sum (simple arg1) (simple arg2)
+simple (Divis arg1 arg2) = Divis (simple arg1) (simple arg2)
+simple (Mul arg1 arg2) = Mul (simple arg1) (simple arg2)
+simple (Sub arg1 arg2) = Sub (simple arg1) (simple arg2)
+simple (Const a) = Const a
+simple Var = Var
 
 p' (Degree var deg) = (Mul (Mul (Const deg) (Degree var (deg - 1))) (myP var))
 p' (Sum ad1 ad2) = (Sum (myP ad1) (myP ad2))
@@ -33,7 +33,7 @@ p' (Sub arg1 arg2) = (Sub (myP arg1) (myP arg2))
 p' (Var) = Const 1
 p' (Const a) = Const 0
 
-myP = simplify.p'
+myP = simple.p'
 
 getDegreeBrack Var = "x"
 getDegreeBrack (Const a) = show a
